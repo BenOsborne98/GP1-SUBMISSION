@@ -53,7 +53,7 @@ void cPlayerShip::setplayerShipVelocity(SDL_Point playerShipVel)
 {
 	playerShipVelocity = playerShipVel;
 }
-//Test
+
 /*
 =================================================================
 Gets the rocket velocity
