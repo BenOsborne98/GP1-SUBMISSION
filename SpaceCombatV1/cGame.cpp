@@ -9,6 +9,7 @@ cGame* cGame::pInstance = NULL;
 static cTextureManager* theTextureMgr = cTextureManager::getInstance();
 static cFontManager* theFontMgr = cFontManager::getInstance();
 static cSoundManager* theSoundManager = cSoundManager::getInstance();
+static cButtonMgr* theButtonMgr = cButtonMgr::getInstance();
 
 
 /*
@@ -73,7 +74,16 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 
 	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
 
-
+	for (int bCount = 0; bCount < btnNameList.size(); bCount++)
+	{
+		cButton * newBtn = new cButton();
+		newBtn->setTexture(theTextureMgr->getTexture(btnNameList[bCount]));
+		newBtn->setSpritePos(btnPos[bCount]);
+		newBtn->setSpriteDimensions(theTextureMgr->getTexture(btnNameList[bCount])->getTWidth(), theTextureMgr->getTexture(btnNameList[bCount])->getTHeight());
+		theButtonMgr->add(btnNameList[bCount], newBtn);
+	}
+	theGameState = MENU;
+	theBtnType = EXIT;
 
 
 	// Load game sounds

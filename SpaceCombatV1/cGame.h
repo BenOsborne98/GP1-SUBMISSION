@@ -60,13 +60,34 @@ private:
 	vector<LPCSTR> soundList;
 	vector<soundType> soundTypes;
 	vector<LPCSTR> soundsToUse;
+	// Create vector array of button textures
+	vector<LPCSTR> btnNameList;
+	vector<LPCSTR> btnTexturesToUse;
+	vector<SDL_Point> btnPos;
+	vector <cButton> theButtons;
 	// Game objects
+	
 	// Define the elements and there position in/on the array/map
-	int renderWidth, renderHeight;
+	//int renderWidth, renderHeight;
 	int score;
 	string scoreAsString;
 	bool scoreChanged;
 	
+	// Define the elements and there position in/on the array/map
+	//cTileMap theTileMap;
+	//cTilePicker theTilePicker;
+	cSprite dragTile;
+	SDL_Point theTileClicked;
+	SDL_Point mapTileClicked;
+	int renderWidth, renderHeight;
+	gameState theGameState;
+	btnTypes theBtnType;
+	SDL_Rect pos;
+	FPoint scale;
+	SDL_Rect aRect;
+	SDL_Color aColour;
+	cTextures* tempTextTexture;
+	SDL_Point theAreaClicked;
 };
 
 #endif

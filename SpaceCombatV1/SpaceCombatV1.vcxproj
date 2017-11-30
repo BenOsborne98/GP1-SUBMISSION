@@ -135,6 +135,8 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cBackground.h" />
+    <ClInclude Include="cButton.h" />
+    <ClInclude Include="cButtonMgr.h" />
     <ClInclude Include="cEnemyShips.h" />
     <ClInclude Include="cGame.h" />
     <ClInclude Include="cLasers.h" />
@@ -152,6 +154,8 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cBackground.cpp" />
+    <ClCompile Include="cButton.cpp" />
+    <ClCompile Include="cButtonMgr.cpp" />
     <ClCompile Include="cEnemyShips.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cFontManager.cpp" />

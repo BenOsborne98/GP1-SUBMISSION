@@ -13,6 +13,9 @@
 #include "cPlayerShip.h"
 #include "cFontManager.h"
 #include "cSoundManager.h"
+#include "cButtonMgr.h"
+#include "cButton.h"
+#include "cButton.h"
 
 #endif 
 
