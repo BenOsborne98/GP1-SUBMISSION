@@ -1,8 +1,8 @@
 /*
 =================
-cTextureMgr.cpp
+cTextureManager.cpp
 - CPP file for class definition - IMPLEMENTATION
-- CPP file for the TextureMgr class
+- CPP file for the TextureManager class
 =================
 */
 #include "cTextureManager.h"

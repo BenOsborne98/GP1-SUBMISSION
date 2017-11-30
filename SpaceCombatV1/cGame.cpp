@@ -50,7 +50,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	score = 0;
 
 	// Store the textures
-	textureName = { "asteroid1", "asteroid2", "asteroid3", "asteroid4", "bullet","theRocket","theBackground" };
+	textureName = { "asteroid1", "asteroid2", "asteroid3", "asteroid4", "lasers","thePlayerShip","theBackground" };
 	texturesToUse = { "Images\\asteroid1.png", "Images\\asteroid2.png", "Images\\asteroid3.png", "Images\\asteroid4.png", "Images\\bullet.png", "Images\\PlayerShipNew.png", "Images\\Background.png" }; //"Images\\starscape1024x768.png"};
 	for (int tCount = 0; tCount < textureName.size(); tCount++)
 	{
@@ -92,8 +92,8 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	spriteBkgd.setSpriteDimensions(theTextureMgr->getTexture("theBackground")->getTWidth(), theTextureMgr->getTexture("theBackground")->getTHeight());
 
 	thePlayer.setSpritePos({ 400, 500 });
-	thePlayer.setTexture(theTextureMgr->getTexture("theRocket"));
-	thePlayer.setSpriteDimensions(theTextureMgr->getTexture("theRocket")->getTWidth(), theTextureMgr->getTexture("theRocket")->getTHeight());
+	thePlayer.setTexture(theTextureMgr->getTexture("thePlayerShip"));
+	thePlayer.setSpriteDimensions(theTextureMgr->getTexture("thePlayerShip")->getTWidth(), theTextureMgr->getTexture("thePlayerShip")->getTHeight());
 	thePlayer.setplayerShipVelocity({ 0, 0 });
 
 	// Create vector array of textures
@@ -102,13 +102,13 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		//theAsteroids.push_back(new cAsteroid);
 		theEnemies.push_back(new cEnemyShips);
-		//theEnemies[enemy]->setSpritePos({ 100 * (rand() % 5 + 1), 50 * (rand() % 5 + 1) });
-		theEnemies[enemy]->setSpritePos({ 100 * 4, 50 * 0 });
+		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 5 + 1), 1 * (rand() % 5 + 1) });
+		//theEnemies[enemy]->setSpritePos({ 100 * 4, 50 * 0 }); Change Back to this if Ships dont move
 		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
-		int randAsteroid = rand() % 4;
+		int randEnemyShip = rand() % 4;
 		//int randAsteroid = 4;
-		theEnemies[enemy]->setTexture(theTextureMgr->getTexture(textureName[randAsteroid]));
-		theEnemies[enemy]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randAsteroid])->getTWidth(), theTextureMgr->getTexture(textureName[randAsteroid])->getTHeight());
+		theEnemies[enemy]->setTexture(theTextureMgr->getTexture(textureName[randEnemyShip]));
+		theEnemies[enemy]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randEnemyShip])->getTWidth(), theTextureMgr->getTexture(textureName[randEnemyShip])->getTHeight());
 		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });
 		theEnemies[enemy]->setActive(true);
 	}
@@ -180,14 +180,14 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
+	/*
 	//RenderHealth
 	tempTextTexture = theTextureMgr->getTexture("Health");
 	pos = { 10, 700, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
-	// render the rocket
+	*/
+	// render the Players ship
 	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
 	SDL_RenderPresent(theRenderer);
 
@@ -353,8 +353,8 @@ bool cGame::getInput(bool theLoop)
 				int numLasers = theLaserfire.size() - 1;
 				theLaserfire[numLasers]->setSpritePos({ thePlayer.getBoundingRect().x + thePlayer.getSpriteCentre().x, thePlayer.getBoundingRect().y + thePlayer.getSpriteCentre().y });
 				theLaserfire[numLasers]->setSpriteTranslation({ 50, 50 });
-				theLaserfire[numLasers]->setTexture(theTextureMgr->getTexture("bullet"));
-				theLaserfire[numLasers]->setSpriteDimensions(theTextureMgr->getTexture("bullet")->getTWidth(), theTextureMgr->getTexture("bullet")->getTHeight());
+				theLaserfire[numLasers]->setTexture(theTextureMgr->getTexture("lasers"));
+				theLaserfire[numLasers]->setSpriteDimensions(theTextureMgr->getTexture("lasers")->getTWidth(), theTextureMgr->getTexture("lasers")->getTHeight());
 				theLaserfire[numLasers]->setlaserVelocity({ 50, 50 });
 				theLaserfire[numLasers]->setSpriteRotAngle(thePlayer.getSpriteRotAngle());
 				theLaserfire[numLasers]->setActive(true);
