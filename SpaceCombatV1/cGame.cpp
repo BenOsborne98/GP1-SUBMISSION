@@ -61,18 +61,18 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	}
 	// Create textures for Game Dialogue (text)
 	//fontList = { "digital", "spaceAge", "nasa" };
-	fontList = { "digital", "spaceAge" };
+	fontList = { "digital", "spaceAge", "nasa" };
 	//fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
-	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf" };
+	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
 	for (int fonts = 0; fonts < fontList.size(); fonts++)
 	{
 		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36);
 	}
 	gameTextList = { "Space Combat", "Score: 0" , "Health:" };
 
-	theTextureMgr->addTexture("Title", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
 
-	theTextureMgr->addTexture("Score", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
 
 	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
 
@@ -125,7 +125,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		//theAsteroids.push_back(new cAsteroid);
 		theEnemies.push_back(new cEnemyShips);
-		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 5 + 1), 1 * (rand() % 5 + 1) });
+		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 1 * (rand() % 5 + 1) });
 		//theEnemies[enemy]->setSpritePos({ 100 * 4, 50 * 0 }); Change Back to this if Ships dont move
 		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
 		int randEnemyShip = rand() % 4;
@@ -183,10 +183,10 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
 		// Render the Title
-		//tempTextTexture = theTextureMgr->getTexture("TitleTxt");
-		//pos = { 10, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//scale = { 1, 1 };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
+		tempTextTexture = theTextureMgr->getTexture("Title");
+		pos = { 325, 30, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
+		scale = { 20, 20};
+		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 		//tempTextTexture = theTextureMgr->getTexture("CreateTxt");
 		//pos = { 300, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
@@ -226,20 +226,20 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		gameTextList[1] = scoreAsString.c_str();
 		//theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
-		theTextureMgr->addTexture("Score", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
+		theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
 		scoreChanged = false;
 	}
 	tempTextTexture = theTextureMgr->getTexture("Score");
 	pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	
+	/*
 	//RenderHealth
 	tempTextTexture = theTextureMgr->getTexture("Health");
 	pos = { 10, 700, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	
+	*/
 	// render the Players ship
 	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
 	SDL_RenderPresent(theRenderer);
