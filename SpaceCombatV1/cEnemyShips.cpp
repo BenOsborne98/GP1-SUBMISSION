@@ -35,7 +35,7 @@ void cEnemyShips ::update(double deltaTime)
 	currentSpritePos.y += this->getSpriteTranslation().y * deltaTime;
 
 	this->setSpritePos({ currentSpritePos.x, currentSpritePos.y });
-	cout << "EnemyShip position - x: " << this->getSpritePos().x << " y: " << this->getSpritePos().y << " deltaTime: " << deltaTime << endl;
+	//cout << "EnemyShip position - x: " << this->getSpritePos().x << " y: " << this->getSpritePos().y << " deltaTime: " << deltaTime << endl;
 	this->setBoundingRect(this->getSpritePos());
 }
 /*

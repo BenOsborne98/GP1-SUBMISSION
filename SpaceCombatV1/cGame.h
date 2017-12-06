@@ -39,6 +39,7 @@ private:
 	time_point< high_resolution_clock > m_lastTime;
 	time_point< high_resolution_clock > m_CurrentTime;
 	duration< double > deltaTime;
+	bool loop; // Might need to be removed
 
 	// Sprites for displaying background and rocket textures
 	cSprite spriteBkgd;
