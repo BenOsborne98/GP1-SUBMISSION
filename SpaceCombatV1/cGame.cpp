@@ -3,7 +3,7 @@
 cGame.cpp
 ==================================================================================
 */
-#include "cGame.h"
+#include "cGame.h" // includes functions from specified header file
 
 cGame* cGame::pInstance = NULL;
 static cTextureManager* theTextureMgr = cTextureManager::getInstance();
@@ -63,24 +63,24 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	//fontList = { "digital", "spaceAge", "nasa" };
 	fontList = { "digital", "spaceAge", "nasa" };
 	//fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
-	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
-	for (int fonts = 0; fonts < fontList.size(); fonts++)
+	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" }; // locates files with the wanted dont
+	for (int fonts = 0; fonts < fontList.size(); fonts++) 
 	{
-		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36);
+		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36); //font manager adds font to the list with a size of 36
 	}
-	gameTextList = { "Space Combat", "Score: 0" , "Health:" };
+	gameTextList = { "Space Combat", "Score: 0" , "Health:" }; // game text list checks to see waht will be rendered on screen
 
-	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
-	theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));  // texture manager finds the texture and applies the stated font before it is given a colour
 
-	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
-	//Might need to be removed-----------------------------------------------------------------------------------------
 	
-	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" };
-	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" };
-	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } };
+	
+	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" }; // gives list of allocated names for buttons
+	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
+	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } }; // sets button position
 	for (int bCount = 0; bCount < btnNameList.size(); bCount++)
 	{
 		theTextureMgr->addTexture(btnNameList[bCount], btnTexturesToUse[bCount]);
@@ -125,7 +125,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		//theAsteroids.push_back(new cAsteroid);
 		theEnemies.push_back(new cEnemyShips);
-		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 1 * (rand() % 5 + 1) });
+		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 0 });
 		//theEnemies[enemy]->setSpritePos({ 100 * 4, 50 * 0 }); Change Back to this if Ships dont move
 		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
 		int randEnemyShip = rand() % 4;
@@ -135,25 +135,21 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });
 		theEnemies[enemy]->setActive(true);
 	}
+	
+}
 
-	/*for (int enemy2 = 0; enemy2 < 10; enemy2++)
-	{
-		//theAsteroids.push_back(new cAsteroid);
-		theEnemies.push_back(new cEnemyShips);
-		//theEnemies[enemy]->setSpritePos({ 100 * (rand() % 5 + 1), 50 * (rand() % 5 + 1) });
-		theEnemies[enemy2]->setSpritePos({ 100 * 4, 50 * 0 });
-		theEnemies[enemy2]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
-		int randAsteroid = rand() % 4;
-		//int randAsteroid = 4;
-		theEnemies[enemy2]->setTexture(theTextureMgr->getTexture(textureName[randAsteroid]));
-		theEnemies[enemy2]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randAsteroid])->getTWidth(), theTextureMgr->getTexture(textureName[randAsteroid])->getTHeight());
-		theEnemies[enemy2]->setenemyShipVelocity({ 0, 0 });
-		theEnemies[enemy2]->setActive(true);
-	}
-	*/
-
-
-
+void cGame::createEnemy()
+{
+	theEnemies.push_back(new cEnemyShips);
+	int numberOfEnemies = theEnemies.size();
+	int lastindex = numberOfEnemies - 1;
+	theEnemies[lastindex]->setSpritePos({ 100 * (rand() % 5 + 1), 0 });
+	theEnemies[lastindex]->setSpriteTranslation({ 0,3 });
+	int randEnemyShip = rand() % 4;
+	theEnemies[lastindex]->setTexture(theTextureMgr->getTexture(textureName[0]));
+	theEnemies[lastindex]->setSpriteDimensions(theTextureMgr->getTexture(textureName[0])->getTWidth(), theTextureMgr->getTexture(textureName[0])->getTHeight());
+	theEnemies[lastindex]->setenemyShipVelocity({ 0,0 });
+	theEnemies[lastindex]->setActive(true);
 }
 
 void cGame::run(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
@@ -248,7 +244,10 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 740, 575 });
 		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
 		
-		
+	if (score >= 4000)
+	{
+
+	}
 	
 		
 	}
@@ -455,7 +454,7 @@ void cGame::update()
 
 void cGame::update(double deltaTime)
 {
-	
+	//int enemyDestroyed = 0;
 	// CHeck Button clicked and change state
 	if (theGameState == MENU || theGameState == END)
 	{
@@ -468,7 +467,8 @@ void cGame::update(double deltaTime)
 	theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);
 	theGameState = theButtonMgr->getBtn("menu_btn")->update(theGameState, MENU, theAreaClicked);
 	
-	
+	//int theEnemiesDestroyed = 0; //might need removed
+	int enemyDestroyed = 0;
 	// Update the visibility and position of each asteriod
 	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();
 	while (enemyIterator != theEnemies.end())
@@ -476,6 +476,9 @@ void cGame::update(double deltaTime)
 		if ((*enemyIterator)->isActive() == false)
 		{
 			enemyIterator = theEnemies.erase(enemyIterator);
+			++enemyDestroyed;
+
+			//++theEnemiesDestroyed; //might need removed
 		}
 		else
 		{
@@ -483,6 +486,20 @@ void cGame::update(double deltaTime)
 			++enemyIterator;
 		}
 	}
+	
+	 for (int alin = 0; alin < enemyDestroyed; ++ alin)
+	{
+		 createEnemy();
+	}
+
+	 for (int enemy = 0; enemy < theEnemies.size(); enemy++)
+	 {
+		 if (theEnemies[enemy]->getSpritePos().y >= (renderHeight - 75))
+		 {
+			 theEnemies[enemy]->setActive(false);
+		 }
+	 }
+	
 	// Update the visibility and position of each bullet
 	vector<cLasers*>::iterator laserIterartor = theLaserfire.begin();
 	while (laserIterartor != theLaserfire.end())
@@ -497,6 +514,15 @@ void cGame::update(double deltaTime)
 			++laserIterartor;
 		}
 	}
+	/*
+	for (int laser = 0; laser < theLaserfire.size(); laser++)
+	{
+		if (theLaserfire[laser]->getSpritePos().y(renderHeight + 75))
+		{
+			theLaserfire[laser]->setActive(false);
+		}
+	}
+	*/
 	/*
 	==============================================================
 	| Check for collisions
