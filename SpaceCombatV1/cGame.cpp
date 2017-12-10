@@ -136,25 +136,22 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 
 	for (int enemy = 0; enemy < 10; enemy++)
 	{
-		//theAsteroids.push_back(new cAsteroid);
 		theEnemies.push_back(new cEnemyShips);
-		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 0 });
-		//theEnemies[enemy]->setSpritePos({ 100 * 4, 50 * 0 }); Change Back to this if Ships dont move
-		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
+		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 0 });//sets random position of enemy ships 
+		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//sets the speed of the y position of the enemy ships
 		int randEnemyShip = rand() % 4;
-		//int randAsteroid = 4;
-		theEnemies[enemy]->setTexture(theTextureMgr->getTexture(textureName[randEnemyShip]));
-		theEnemies[enemy]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randEnemyShip])->getTWidth(), theTextureMgr->getTexture(textureName[randEnemyShip])->getTHeight());
-		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });
-		theEnemies[enemy]->setActive(true);
+		theEnemies[enemy]->setTexture(theTextureMgr->getTexture(textureName[randEnemyShip]));//sets the texture of the enemy ships
+		theEnemies[enemy]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randEnemyShip])->getTWidth(), theTextureMgr->getTexture(textureName[randEnemyShip])->getTHeight());//sets enemy ship dimensions
+		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });//inital enemy ship velocity is stationary
+		theEnemies[enemy]->setActive(true);//enemies are activated
 	}
 	
 }
 
-void cGame::createEnemy()
+void cGame::createEnemy()//used to create enemies
 {
 	theEnemies.push_back(new cEnemyShips);
-	int numberOfEnemies = theEnemies.size();
+	int numberOfEnemies = theEnemies.size();//checks the number of enemies against the initial value
 	int lastindex = numberOfEnemies - 1;
 	theEnemies[lastindex]->setSpritePos({ 100 * (rand() % 5 + 1), 0 });
 	theEnemies[lastindex]->setSpriteTranslation({ 0,3 });
