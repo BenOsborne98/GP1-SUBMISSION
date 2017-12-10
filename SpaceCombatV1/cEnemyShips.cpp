@@ -24,7 +24,7 @@ Update the sprite position
 void cEnemyShips ::update(double deltaTime)
 {
 
-	this->setSpriteRotAngle(this->getSpriteRotAngle() + (2.0f * deltaTime));
+	this->setSpriteRotAngle(this->getSpriteRotAngle() + (2.0f * deltaTime));//sets the enemy ship rotation speed
 	if (this->getSpriteRotAngle() > 360)
 	{
 		this->setSpriteRotAngle(this->getSpriteRotAngle() - 360);
@@ -40,16 +40,16 @@ void cEnemyShips ::update(double deltaTime)
 }
 /*
 =================================================================
-Sets the velocity for the Asteroid
+Sets the velocity for the enemy ships
 =================================================================
 */
 void cEnemyShips::setenemyShipVelocity(SDL_Point enemyShipVel)
 {
-	enemyShipVelocity = enemyShipVel;
+	enemyShipVelocity = enemyShipVel;//sets the velocity of the enemy ships
 }
 /*
 =================================================================
-Gets the Asteroid velocity
+Gets the enemy ships velocity
 =================================================================
 */
 

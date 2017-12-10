@@ -2,7 +2,7 @@
 #define _SPACECOMBAT_H
 
 // Game Headers
-
+//Must be included in order to work
 #include "GameConstants.h"
 #include "cSprite.h"
 #include "cBackground.h"

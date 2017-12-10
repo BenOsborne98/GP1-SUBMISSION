@@ -9,7 +9,7 @@ cGame* cGame::pInstance = NULL;
 static cTextureManager* theTextureMgr = cTextureManager::getInstance();
 static cFontManager* theFontMgr = cFontManager::getInstance();
 static cSoundManager* theSoundManager = cSoundManager::getInstance();
-static cButtonMgr* theButtonMgr = cButtonMgr::getInstance(); // Used to find buttons (may have to go)
+static cButtonMgr* theButtonMgr = cButtonMgr::getInstance();
 
 
 /*

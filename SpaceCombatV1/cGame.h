@@ -64,19 +64,19 @@ private:
 	
 	// Create vector array of button textures
 	vector<LPCSTR> btnNameList; //needed for menu
-	vector<LPCSTR> btnTexturesToUse;
-	vector<SDL_Point> btnPos;
+	vector<LPCSTR> btnTexturesToUse;//creates vectors button textures
+	vector<SDL_Point> btnPos;//creates vector for button positions
 	vector <cButton> theButtons;
 	
 	// Game objects
 	
 	// Define the elements and there position in/on the array/map
 	//int renderWidth, renderHeight;
-	int score;
-	string scoreAsString;
-	bool scoreChanged;
+	int score;//creates integer to keep tab on score
+	string scoreAsString;//stores score as string
+	bool scoreChanged;//used for true/false statement for score
 
-	int spawnEnemy;
+	int spawnEnemy;//integer for enemy spawning
 	void createEnemy();
 	
 	// Define the elements and there position in/on the array/map
@@ -84,15 +84,15 @@ private:
 	cSprite dragTile;
 	SDL_Point theTileClicked;
 	SDL_Point mapTileClicked;
-	int renderWidth, renderHeight;
-	gameState theGameState;
-	btnTypes theBtnType; //--------------
+	int renderWidth, renderHeight;//integer used to show width and height of render window
+	gameState theGameState;//creates the game state
+	btnTypes theBtnType; //
 	SDL_Rect pos;
 	FPoint scale;
 	SDL_Rect aRect;
 	SDL_Color aColour;
 	cTextures* tempTextTexture;
-	SDL_Point theAreaClicked;//-----------------------
+	SDL_Point theAreaClicked;//
 	bool fileAvailable;
 };
 
