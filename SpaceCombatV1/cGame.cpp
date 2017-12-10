@@ -75,9 +75,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theTextureMgr->addTexture(textureName[tCount], texturesToUse[tCount]);
 	}
 	// Create textures for Game Dialogue (text)
-	//fontList = { "digital", "spaceAge", "nasa" };
-	fontList = { "digital", "spaceAge", "nasa" };
-	//fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
+	fontList = { "digital", "spaceAge", "nasa" };//sets names for font list
 	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" }; // locates files with the wanted dont
 	for (int fonts = 0; fonts < fontList.size(); fonts++) 
 	{
@@ -96,7 +94,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" }; // gives list of allocated names for buttons
 	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
 	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } }; // sets button position
-	for (int bCount = 0; bCount < btnNameList.size(); bCount++)
+	for (int bCount = 0; bCount < btnNameList.size(); bCount++)//checks buttin name list with the textures that can be used
 	{
 		theTextureMgr->addTexture(btnNameList[bCount], btnTexturesToUse[bCount]);
 	}
@@ -115,24 +113,24 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	//-------------------------------------------------------------------------------------
 
 	// Load game sounds
-	soundList = { "theme", "shot", "explosion" };
-	soundTypes = { MUSIC, SFX, SFX };
-	soundsToUse = { "Audio/who10Edit.wav", "Audio/shot007.wav", "Audio/explosion2.wav" };
-	for (int sounds = 0; sounds < soundList.size(); sounds++)
+	soundList = { "theme", "shot", "explosion" };//names given to list of sounds
+	soundTypes = { MUSIC, SFX, SFX };//lists the sound types
+	soundsToUse = { "Audio/who10Edit.wav", "Audio/shot007.wav", "Audio/explosion2.wav" };//finds the relevent sound files 
+	for (int sounds = 0; sounds < soundList.size(); sounds++)//checks the size of the sounds list 
 	{
 		theSoundManager->add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
 	}
 
 	theSoundManager->getSnd("theme")->play(-1);
 
-	spriteBkgd.setSpritePos({ 0, 0 });
-	spriteBkgd.setTexture(theTextureMgr->getTexture("theBackground"));
-	spriteBkgd.setSpriteDimensions(theTextureMgr->getTexture("theBackground")->getTWidth(), theTextureMgr->getTexture("theBackground")->getTHeight());
+	spriteBkgd.setSpritePos({ 0, 0 });//sets the position of the background
+	spriteBkgd.setTexture(theTextureMgr->getTexture("theBackground"));//gets background texture
+	spriteBkgd.setSpriteDimensions(theTextureMgr->getTexture("theBackground")->getTWidth(), theTextureMgr->getTexture("theBackground")->getTHeight());//gets the background dimensions
 	cout << "Bckgnd w " << spriteBkgd.getSpriteDimensions().w << " h " << spriteBkgd.getSpriteDimensions().h << endl;
-	thePlayer.setSpritePos({ 400, 500 });
-	thePlayer.setTexture(theTextureMgr->getTexture("thePlayerShip"));
-	thePlayer.setSpriteDimensions(theTextureMgr->getTexture("thePlayerShip")->getTWidth(), theTextureMgr->getTexture("thePlayerShip")->getTHeight());
-	thePlayer.setplayerShipVelocity({ 0, 0 });
+	thePlayer.setSpritePos({ 400, 500 });//sets position of the player ship
+	thePlayer.setTexture(theTextureMgr->getTexture("thePlayerShip"));//sets the texture for the player ship
+	thePlayer.setSpriteDimensions(theTextureMgr->getTexture("thePlayerShip")->getTWidth(), theTextureMgr->getTexture("thePlayerShip")->getTHeight());//sets the dimensions of player ship
+	thePlayer.setplayerShipVelocity({ 0, 0 });//sets the player ship as stationary
 
 	// Create vector array of textures
 
