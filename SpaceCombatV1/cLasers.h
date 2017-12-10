@@ -18,7 +18,6 @@ private:
 public:
 	cLasers();
 	void update(double deltaTime);		// Lasers update method
-	//void setlaserVelocity(SDL_Point bulletVel);
 	void setlaserVelocity(SDL_Point laserVel); // Sets the velocity for the lasers
 	SDL_Point getlaserVelocity();				 // Gets the Bullet velocity
 };

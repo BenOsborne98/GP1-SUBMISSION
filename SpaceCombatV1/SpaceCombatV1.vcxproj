@@ -75,10 +75,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\include;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\include;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\lib\x86</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -104,14 +104,14 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\include;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\include;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\include;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_ttf-2.0.14\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2_image-2.0.1\lib\x86;C:\Users\Admin\Desktop\SDL2\SDL2-2.0.4\lib\x86</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>echo copying SDL2.dll to debug directory
@@ -139,6 +139,7 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
     <ClInclude Include="cButton.h" />
     <ClInclude Include="cButtonMgr.h" />
     <ClInclude Include="cEnemyShips.h" />
+    <ClInclude Include="cFileHandler.h" />
     <ClInclude Include="cGame.h" />
     <ClInclude Include="cLasers.h" />
     <ClInclude Include="cPlayerShip.h" />
@@ -158,6 +159,7 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
     <ClCompile Include="cButton.cpp" />
     <ClCompile Include="cButtonMgr.cpp" />
     <ClCompile Include="cEnemyShips.cpp" />
+    <ClCompile Include="cFileHandler.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cGame.cpp" />

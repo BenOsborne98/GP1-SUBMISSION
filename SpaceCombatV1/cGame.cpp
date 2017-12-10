@@ -3,7 +3,7 @@
 cGame.cpp
 ==================================================================================
 */
-#include "cGame.h"
+#include "cGame.h" // includes functions from specified header file
 
 cGame* cGame::pInstance = NULL;
 static cTextureManager* theTextureMgr = cTextureManager::getInstance();
@@ -51,6 +51,21 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	theFontMgr->initFontLib();
 	theSoundManager->initMixer();
 	score = 0;
+	
+	// Set filename
+	theFile.setFileName("Data/usermap.dat");
+	// Check file is available
+	if (!theFile.openFile(ios::in)) //open file for input output
+	{
+		cout << "Could not open specified file '" << theFile.getFileName() << "'. Error " << SDL_GetError() << endl;
+		fileAvailable = false;
+	}
+	else
+	{
+		cout << "File '" << theFile.getFileName() << "' opened for input!" << endl;
+		fileAvailable = true;
+	}
+	
 
 	// Store the textures
 	textureName = { "asteroid1", "asteroid2", "asteroid3", "asteroid4", "lasers","thePlayerShip","theBackground" };
@@ -63,24 +78,24 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	//fontList = { "digital", "spaceAge", "nasa" };
 	fontList = { "digital", "spaceAge", "nasa" };
 	//fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
-	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" };
-	for (int fonts = 0; fonts < fontList.size(); fonts++)
+	fontsToUse = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/nasalization-rg.ttf" }; // locates files with the wanted dont
+	for (int fonts = 0; fonts < fontList.size(); fonts++) 
 	{
-		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36);
+		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36); //font manager adds font to the list with a size of 36
 	}
-	gameTextList = { "Space Combat", "Score: 0" , "Health:" };
+	gameTextList = { "Space Combat", "Score: 0" , "Health:" }; // game text list checks to see waht will be rendered on screen
 
-	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
-	theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));  // texture manager finds the texture and applies the stated font before it is given a colour
 
-	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
-	//Might need to be removed-----------------------------------------------------------------------------------------
 	
-	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" };
-	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" };
-	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } };
+	
+	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" }; // gives list of allocated names for buttons
+	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
+	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } }; // sets button position
 	for (int bCount = 0; bCount < btnNameList.size(); bCount++)
 	{
 		theTextureMgr->addTexture(btnNameList[bCount], btnTexturesToUse[bCount]);
@@ -125,7 +140,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		//theAsteroids.push_back(new cAsteroid);
 		theEnemies.push_back(new cEnemyShips);
-		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 1 * (rand() % 5 + 1) });
+		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 0 });
 		//theEnemies[enemy]->setSpritePos({ 100 * 4, 50 * 0 }); Change Back to this if Ships dont move
 		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
 		int randEnemyShip = rand() % 4;
@@ -135,25 +150,21 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });
 		theEnemies[enemy]->setActive(true);
 	}
+	
+}
 
-	/*for (int enemy2 = 0; enemy2 < 10; enemy2++)
-	{
-		//theAsteroids.push_back(new cAsteroid);
-		theEnemies.push_back(new cEnemyShips);
-		//theEnemies[enemy]->setSpritePos({ 100 * (rand() % 5 + 1), 50 * (rand() % 5 + 1) });
-		theEnemies[enemy2]->setSpritePos({ 100 * 4, 50 * 0 });
-		theEnemies[enemy2]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//{ (rand() % 8 + 1), (rand() % 8 + 1) });
-		int randAsteroid = rand() % 4;
-		//int randAsteroid = 4;
-		theEnemies[enemy2]->setTexture(theTextureMgr->getTexture(textureName[randAsteroid]));
-		theEnemies[enemy2]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randAsteroid])->getTWidth(), theTextureMgr->getTexture(textureName[randAsteroid])->getTHeight());
-		theEnemies[enemy2]->setenemyShipVelocity({ 0, 0 });
-		theEnemies[enemy2]->setActive(true);
-	}
-	*/
-
-
-
+void cGame::createEnemy()
+{
+	theEnemies.push_back(new cEnemyShips);
+	int numberOfEnemies = theEnemies.size();
+	int lastindex = numberOfEnemies - 1;
+	theEnemies[lastindex]->setSpritePos({ 100 * (rand() % 5 + 1), 0 });
+	theEnemies[lastindex]->setSpriteTranslation({ 0,3 });
+	int randEnemyShip = rand() % 4;
+	theEnemies[lastindex]->setTexture(theTextureMgr->getTexture(textureName[0]));
+	theEnemies[lastindex]->setSpriteDimensions(theTextureMgr->getTexture(textureName[0])->getTWidth(), theTextureMgr->getTexture(textureName[0])->getTHeight());
+	theEnemies[lastindex]->setenemyShipVelocity({ 0,0 });
+	theEnemies[lastindex]->setActive(true);
 }
 
 void cGame::run(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
@@ -195,7 +206,7 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 		// Render Button
 		theButtonMgr->getBtn("play_btn")->render(theRenderer, &theButtonMgr->getBtn("play_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("play_btn")->getSpritePos(), theButtonMgr->getBtn("play_btn")->getSpriteScale());
-		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 400, 375 });
+		//theButtonMgr->getBtn("exit_btn")->setSpritePos({ 400, 375 });
 		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
 	}
 	break;
@@ -242,16 +253,27 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	*/
 	// render the Players ship
 	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
-	SDL_RenderPresent(theRenderer);
+	
 		
 
-		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 740, 575 });
+		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 740, 650 });
 		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
-		
-		
+		theButtonMgr->getBtn("load_btn")->setSpritePos({ 740, 500 });
+		theButtonMgr->getBtn("load_btn")->render(theRenderer, &theButtonMgr->getBtn("load_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("load_btn")->getSpritePos(), theButtonMgr->getBtn("load_btn")->getSpriteScale());
+		theButtonMgr->getBtn("save_btn")->setSpritePos({ 740, 575 });
+		theButtonMgr->getBtn("save_btn")->render(theRenderer, &theButtonMgr->getBtn("save_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("save_btn")->getSpritePos(), theButtonMgr->getBtn("save_btn")->getSpriteScale());
+
+		SDL_RenderPresent(theRenderer);
+
+	if (score >= 4000)
+	{
+
+	}
 	
 		
 	}
+
+
 	break;
 	
 	
@@ -288,163 +310,11 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 
 	SDL_RenderPresent(theRenderer);
 	
-	/*
-	SDL_RenderClear(theRenderer);
-	spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
-	// Render each asteroid in the vector array
-	for (int draw = 0; draw < theEnemies.size(); draw++)
-	{
-		theEnemies[draw]->render(theRenderer, &theEnemies[draw]->getSpriteDimensions(), &theEnemies[draw]->getSpritePos(), theEnemies[draw]->getSpriteRotAngle(), &theEnemies[draw]->getSpriteCentre(), theEnemies[draw]->getSpriteScale());
-	}
-	// Render each bullet in the vector array
-	for (int draw = 0; draw < theLaserfire.size(); draw++)
-	{
-		theLaserfire[draw]->render(theRenderer, &theLaserfire[draw]->getSpriteDimensions(), &theLaserfire[draw]->getSpritePos(), theLaserfire[draw]->getSpriteRotAngle(), &theLaserfire[draw]->getSpriteCentre(), theLaserfire[draw]->getSpriteScale());
-	}
-	// Render the Title
-	cTextures* tempTextTexture = theTextureMgr->getTexture("Title");
-	SDL_Rect pos = { 10, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-	FPoint scale = { 1, 1 };
-	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
-	//RenderScore
-	if (scoreChanged)
-	{
-		gameTextList[1] = scoreAsString.c_str();
-		//theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
-		theTextureMgr->addTexture("Score", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
-		scoreChanged = false;
-	}
-	tempTextTexture = theTextureMgr->getTexture("Score");
-	pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-	scale = { 1, 1 };
-	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	
-	//RenderHealth
-	tempTextTexture = theTextureMgr->getTexture("Health");
-	pos = { 10, 700, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-	scale = { 1, 1 };
-	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	
-	// render the Players ship
-	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
-	SDL_RenderPresent(theRenderer);
-	*/
 
 }
 
 void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer, double rotAngle, SDL_Point* spriteCentre)
 {
-
-	/*SDL_RenderPresent(theRenderer);
-	switch (theGameState)
-	{
-	case MENU:
-	{
-		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
-		// Render the Title
-		//tempTextTexture = theTextureMgr->getTexture("TitleTxt");
-		//pos = { 10, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//scale = { 1, 1 };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		//tempTextTexture = theTextureMgr->getTexture("CreateTxt");
-		//pos = { 300, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		//tempTextTexture = theTextureMgr->getTexture("DragDropTxt");
-		//pos = { 300, 75, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		// Render Button
-		theButtonMgr->getBtn("play_btn")->render(theRenderer, &theButtonMgr->getBtn("play_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("play_btn")->getSpritePos(), theButtonMgr->getBtn("play_btn")->getSpriteScale());
-		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 400, 375 });
-		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
-	}
-	break;
-
-
-	case PLAYING:
-	{
-		SDL_RenderClear(theRenderer);
-		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
-		// Render each asteroid in the vector array
-		for (int draw = 0; draw < theEnemies.size(); draw++)
-		{
-			theEnemies[draw]->render(theRenderer, &theEnemies[draw]->getSpriteDimensions(), &theEnemies[draw]->getSpritePos(), theEnemies[draw]->getSpriteRotAngle(), &theEnemies[draw]->getSpriteCentre(), theEnemies[draw]->getSpriteScale());
-		}
-		// Render each bullet in the vector array
-		for (int draw = 0; draw < theLaserfire.size(); draw++)
-		{
-			theLaserfire[draw]->render(theRenderer, &theLaserfire[draw]->getSpriteDimensions(), &theLaserfire[draw]->getSpritePos(), theLaserfire[draw]->getSpriteRotAngle(), &theLaserfire[draw]->getSpriteCentre(), theLaserfire[draw]->getSpriteScale());
-		}
-		// Render the Title
-		cTextures* tempTextTexture = theTextureMgr->getTexture("Title");
-		SDL_Rect pos = { 10, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		FPoint scale = { 1, 1 };
-		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
-		//RenderScore
-		if (scoreChanged)
-		{
-			gameTextList[1] = scoreAsString.c_str();
-			//theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
-			theTextureMgr->addTexture("Score", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
-			scoreChanged = false;
-		}
-		tempTextTexture = theTextureMgr->getTexture("Score");
-		pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		scale = { 1, 1 };
-		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
-		//RenderHealth
-		tempTextTexture = theTextureMgr->getTexture("Health");
-		pos = { 10, 700, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		scale = { 1, 1 };
-		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
-		// render the Players ship
-		thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
-		SDL_RenderPresent(theRenderer);
-
-
-		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 740, 575 });
-		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
-
-
-
-
-	}
-	break;
-
-
-	case END:
-	{
-		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
-
-		//tempTextTexture = theTextureMgr->getTexture("TitleTxt");
-		//pos = { 10, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		//tempTextTexture = theTextureMgr->getTexture("ThanksTxt");
-		//pos = { 300, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		//tempTextTexture = theTextureMgr->getTexture("SeeYouTxt");
-		//pos = { 300, 75, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-
-		theButtonMgr->getBtn("menu_btn")->setSpritePos({ 500, 500 });
-		theButtonMgr->getBtn("menu_btn")->render(theRenderer, &theButtonMgr->getBtn("menu_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("menu_btn")->getSpritePos(), theButtonMgr->getBtn("menu_btn")->getSpriteScale());
-		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 500, 575 });
-		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
-	}
-	break;
-
-
-	case QUIT:
-	{
-		loop = false;
-	}
-	break;
-	default:
-		break;
-	}*/
 
 }
 
@@ -455,7 +325,8 @@ void cGame::update()
 
 void cGame::update(double deltaTime)
 {
-	
+	/*
+	//int enemyDestroyed = 0;
 	// CHeck Button clicked and change state
 	if (theGameState == MENU || theGameState == END)
 	{
@@ -468,7 +339,8 @@ void cGame::update(double deltaTime)
 	theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);
 	theGameState = theButtonMgr->getBtn("menu_btn")->update(theGameState, MENU, theAreaClicked);
 	
-	
+	//int theEnemiesDestroyed = 0; //might need removed
+	int enemyDestroyed = 0;
 	// Update the visibility and position of each asteriod
 	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();
 	while (enemyIterator != theEnemies.end())
@@ -476,6 +348,9 @@ void cGame::update(double deltaTime)
 		if ((*enemyIterator)->isActive() == false)
 		{
 			enemyIterator = theEnemies.erase(enemyIterator);
+			++enemyDestroyed;
+
+			//++theEnemiesDestroyed; //might need removed
 		}
 		else
 		{
@@ -483,6 +358,20 @@ void cGame::update(double deltaTime)
 			++enemyIterator;
 		}
 	}
+	
+	 for (int alin = 0; alin < enemyDestroyed; ++ alin)
+	{
+		 createEnemy();
+	}
+
+	 for (int enemy = 0; enemy < theEnemies.size(); enemy++)
+	 {
+		 if (theEnemies[enemy]->getSpritePos().y >= (renderHeight - 75))
+		 {
+			 theEnemies[enemy]->setActive(false);
+		 }
+	 }
+	
 	// Update the visibility and position of each bullet
 	vector<cLasers*>::iterator laserIterartor = theLaserfire.begin();
 	while (laserIterartor != theLaserfire.end())
@@ -497,11 +386,13 @@ void cGame::update(double deltaTime)
 			++laserIterartor;
 		}
 	}
+
 	/*
 	==============================================================
 	| Check for collisions
 	==============================================================
 	*/
+	/*
 	for (vector<cLasers*>::iterator laserIterartor = theLaserfire.begin(); laserIterartor != theLaserfire.end(); ++laserIterartor)
 	{
 		//(*bulletIterartor)->update(deltaTime);
@@ -525,8 +416,148 @@ void cGame::update(double deltaTime)
 			}
 		}
 	}
+	*/
+	
+	// CHeck Button clicked and change state------------------------------------------------------------------------------------------
+	switch (theGameState)
+	{
+	case MENU:
+	{
+		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);
+		theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);
+	}
+	break;
+	case PLAYING:
+	{
+			//int theEnemiesDestroyed = 0; //might need removed
+	int enemyDestroyed = 0;
+	// Update the visibility and position of each asteriod
+	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();
+	while (enemyIterator != theEnemies.end())
+	{
+		if ((*enemyIterator)->isActive() == false)
+		{
+			enemyIterator = theEnemies.erase(enemyIterator);
+			++enemyDestroyed;
 
+			//++theEnemiesDestroyed; //might need removed
+		}
+		else
+		{
+			(*enemyIterator)->update(30.0f *deltaTime);
+			++enemyIterator;
+		}
+	}
+	
+	 for (int alin = 0; alin < enemyDestroyed; ++ alin)
+	{
+		 createEnemy();
+	}
 
+	 for (int enemy = 0; enemy < theEnemies.size(); enemy++)
+	 {
+		 if (theEnemies[enemy]->getSpritePos().y >= (renderHeight - 75))
+		 {
+			 theEnemies[enemy]->setActive(false);
+		 }
+	 }
+	
+	// Update the visibility and position of each bullet
+	vector<cLasers*>::iterator laserIterartor = theLaserfire.begin();
+	while (laserIterartor != theLaserfire.end())
+	{
+		if ((*laserIterartor)->isActive() == false)
+		{
+			laserIterartor = theLaserfire.erase(laserIterartor);
+		}
+		else
+		{
+			(*laserIterartor)->update(deltaTime);
+			++laserIterartor;
+		}
+	}
+	
+	/*
+	for (int laser = 0; laser < theLaserfire.size(); laser++)
+	{
+		if (theLaserfire[laser]->getSpritePos().y(renderHeight + 75))
+		{
+			theLaserfire[laser]->setActive(false);
+		}
+	}
+	*/
+	/*
+	==============================================================
+	| Check for collisions
+	==============================================================
+	*/
+	
+	for (vector<cLasers*>::iterator laserIterartor = theLaserfire.begin(); laserIterartor != theLaserfire.end(); ++laserIterartor)
+	{
+		//(*bulletIterartor)->update(deltaTime);
+		for (vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin(); enemyIterator != theEnemies.end(); ++enemyIterator)
+		{
+			if ((*enemyIterator)->collidedWith(&(*enemyIterator)->getBoundingRect(), &(*laserIterartor)->getBoundingRect()))
+			{
+				// if a collision set the bullet and asteroid to false
+				(*enemyIterator)->setActive(false);
+				(*laserIterartor)->setActive(false);
+				theSoundManager->getSnd("explosion")->play(0);
+				score += 100;
+				if (theTextureMgr->getTexture("Score") != NULL)
+				{
+					theTextureMgr->deleteTexture("Score");
+				}
+				//theTextureMgr->deleteTexture("Score");
+				string theScore = to_string(score);
+				scoreAsString = "Score:" + theScore;
+				scoreChanged = true;
+			}
+		}
+	}
+		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, END, theAreaClicked);
+		theGameState = theButtonMgr->getBtn("load_btn")->update(theGameState, LOADGAME, theAreaClicked);
+		if (fileAvailable && theGameState == LOADGAME)
+		{
+			//theTileMap.initialiseMapFromFile(&theFile);
+			theGameState = PLAYING;
+			theAreaClicked = { 0, 0 };
+		}
+		theGameState = theButtonMgr->getBtn("save_btn")->update(theGameState, SAVEGAME, theAreaClicked);
+		if (theGameState == SAVEGAME)
+		{
+			// Check file is available
+			if (!theFile.openFile(ios::out)) //open file for output
+			{
+				cout << "Could not open specified file '" << theFile.getFileName() << "'. Error " << SDL_GetError() << endl;
+			}
+			else
+			{
+				cout << "File '" << theFile.getFileName() << "' opened for output!" << endl;
+			//	theTileMap.writeMapDataToFile(&theFile);
+			}
+
+			//theTileMap.writeMapDataToFile(&theFile);
+			theGameState = PLAYING;
+			theAreaClicked = { 0, 0 };
+		}
+	}
+	break;
+	case END:
+	{
+		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);
+		theGameState = theButtonMgr->getBtn("menu_btn")->update(theGameState, MENU, theAreaClicked);
+	}
+	break;
+	case QUIT:
+	{
+	}
+	break;
+	default:
+		break;
+	}
+	
+	//-----------------------------------------------------------------------------------------------------------------------------
 	// Update the Rockets position
 	thePlayer.update(deltaTime);
 }
@@ -579,26 +610,7 @@ bool cGame::getInput(bool theLoop)
 			case SDLK_ESCAPE:
 				theLoop = false;
 				break;
-			
-			/*
-			SDLK_DOWN:
-			{
-				if (thePlayer.getSpritePos().x < (renderWidth - thePlayer.getSpritePos().w))
-				{
-					thePlayer.setSpriteTranslation({ -5, -5 });
-				}
-			}
-			break;
 
-			case SDLK_UP:
-			{
-				if (thePlayer.getSpritePos().x > 0)
-				{
-					thePlayer.setSpriteTranslation({ 5, 5 });
-				}
-			}
-			break;
-			*/
 			case SDLK_d:
 			{
 				thePlayer.setplayerShipVelocity({ 250, 0 });
