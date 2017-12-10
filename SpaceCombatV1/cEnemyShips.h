@@ -12,7 +12,7 @@ cAsteroid.h
 class cEnemyShips : public cSprite
 {
 private:
-	SDL_Point enemyShipVelocity;
+	SDL_Point enemyShipVelocity;//ariable for enemy ship velocity
 
 public:
 	cEnemyShips();
