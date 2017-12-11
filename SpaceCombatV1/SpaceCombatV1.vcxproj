@@ -147,6 +147,7 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
     <ClInclude Include="cSprite.h" />
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cFont.h" />
+    <ClInclude Include="cTileMap.h" />
     <ClInclude Include="GameConstants.h" />
     <ClInclude Include="cTextures.h" />
     <ClInclude Include="cSoundManager.h" />
@@ -171,6 +172,7 @@ xcopy /Y "C:\Users\Admin\Desktop\SDL2\SDL2_mixer-2.0.1\lib\x86\*.dll" "$(OutDir)
     <ClCompile Include="cTextureManager.cpp" />
     <ClCompile Include="cTextures.cpp" />
     <ClCompile Include="cSound.cpp" />
+    <ClCompile Include="cTileMap.cpp" />
     <ClCompile Include="SpaceCombatSDL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

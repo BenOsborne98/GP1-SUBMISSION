@@ -72,15 +72,21 @@ private:
 	
 	// Define the elements and there position in/on the array/map
 	//int renderWidth, renderHeight;
+	
 	int score;//creates integer to keep tab on score
 	string scoreAsString;//stores score as string
 	bool scoreChanged;//used for true/false statement for score
 
+	int health;
+	string healthAsString;
+	bool healthChanged;
+	
 	int spawnEnemy;//integer for enemy spawning
 	void createEnemy();
 	
 	// Define the elements and there position in/on the array/map
 	cFileHandler theFile;
+	cTileMap theTileMap;
 	cSprite dragTile;
 	SDL_Point theTileClicked;
 	SDL_Point mapTileClicked;

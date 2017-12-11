@@ -50,8 +50,9 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	theTextureMgr->setRenderer(theRenderer);
 	theFontMgr->initFontLib();
 	theSoundManager->initMixer();
-	score = 0;
 	
+	score = 0;
+	health = 10;
 	// Set filename
 	theFile.setFileName("Data/usermap.dat");
 	// Check file is available
@@ -81,16 +82,18 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36); //font manager adds font to the list with a size of 36
 	}
-	gameTextList = { "Space Combat", "Score: 0" , "Health:" }; // game text list checks to see waht will be rendered on screen
+	gameTextList = { "Space Combat", "Score: 0" , "Health:" , "GAME OVER", "SCORE = XXXX"}; // game text list checks to see waht will be rendered on screen
 
 	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
 	theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));  // texture manager finds the texture and applies the stated font before it is given a colour
 
-	theTextureMgr->addTexture("Health", theFontMgr->getFont("spaceAge")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
+	theTextureMgr->addTexture("Health", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
-	
-	
+	theTextureMgr->addTexture("GAME OVER", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[3], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
+
+	theTextureMgr->addTexture("SCORE = XXXX", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[4], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
+
 	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" }; // gives list of allocated names for buttons
 	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
 	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } }; // sets button position
@@ -145,6 +148,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });//inital enemy ship velocity is stationary
 		theEnemies[enemy]->setActive(true);//enemies are activated
 	}
+
 	
 }
 
@@ -152,9 +156,9 @@ void cGame::createEnemy()//used to create enemies
 {
 	theEnemies.push_back(new cEnemyShips);
 	int numberOfEnemies = theEnemies.size();//checks the number of enemies against the initial value
-	int lastindex = numberOfEnemies - 1;
-	theEnemies[lastindex]->setSpritePos({ 100 * (rand() % 5 + 1), 0 });
-	theEnemies[lastindex]->setSpriteTranslation({ 0,3 });
+	int lastindex = numberOfEnemies - 1;//checks the number of enemeies -1 of the original number
+	theEnemies[lastindex]->setSpritePos({ 100 * (rand() % 5 + 1), 0 });//sets at a random x position at the top of the window
+	theEnemies[lastindex]->setSpriteTranslation({ 0,3 });//sets sprite translation so that it moves down y-axis
 	int randEnemyShip = rand() % 4;
 	theEnemies[lastindex]->setTexture(theTextureMgr->getTexture(textureName[0]));
 	theEnemies[lastindex]->setSpriteDimensions(theTextureMgr->getTexture(textureName[0])->getTWidth(), theTextureMgr->getTexture(textureName[0])->getTHeight());
@@ -164,7 +168,6 @@ void cGame::createEnemy()//used to create enemies
 
 void cGame::run(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 {
-	//bool loop = true;   //may need to be reimplemented
 	 loop = true;
 	while (loop)
 	{
@@ -231,21 +234,30 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	if (scoreChanged)
 	{
 		gameTextList[1] = scoreAsString.c_str();
-		//theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
 		theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
 		scoreChanged = false;
 	}
+
+	//RenderHealth
+	if (healthChanged)
+	{
+		gameTextList[2] = healthAsString.c_str();
+		theTextureMgr->addTexture("Health", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
+		healthChanged = false;
+	}
+	
+	//Set Score Texture
 	tempTextTexture = theTextureMgr->getTexture("Score");
 	pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	/*
-	//RenderHealth
+	
+	//Set Health Texture
 	tempTextTexture = theTextureMgr->getTexture("Health");
 	pos = { 10, 700, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	*/
+	
 	// render the Players ship
 	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
 	
@@ -260,10 +272,6 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 
 		SDL_RenderPresent(theRenderer);
 
-	if (score >= 4000)
-	{
-
-	}
 	
 		
 	}
@@ -276,15 +284,15 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
 		
-		//tempTextTexture = theTextureMgr->getTexture("TitleTxt");
-		//pos = { 10, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		//tempTextTexture = theTextureMgr->getTexture("ThanksTxt");
-		//pos = { 300, 10, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-		//tempTextTexture = theTextureMgr->getTexture("SeeYouTxt");
-		//pos = { 300, 75, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		//tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
+		tempTextTexture = theTextureMgr->getTexture("GAME OVER");
+		pos = { 325, 30, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
+		scale = { 20, 20 };
+		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
+		
+		tempTextTexture = theTextureMgr->getTexture("SCORE = XXXX");
+		pos = { 325, 80, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
+		scale = { 20, 20 };
+		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 		
 		theButtonMgr->getBtn("menu_btn")->setSpritePos({ 500, 500 });
 		theButtonMgr->getBtn("menu_btn")->render(theRenderer, &theButtonMgr->getBtn("menu_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("menu_btn")->getSpritePos(), theButtonMgr->getBtn("menu_btn")->getSpriteScale());
@@ -420,12 +428,14 @@ void cGame::update(double deltaTime)
 	{
 		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);
 		theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);
+		score = 0;
 	}
 	break;
 	case PLAYING:
 	{
 			//int theEnemiesDestroyed = 0; //might need removed
 	int enemyDestroyed = 0;
+	//int health = 10;
 	// Update the visibility and position of each asteriod
 	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();
 	while (enemyIterator != theEnemies.end())
@@ -444,7 +454,7 @@ void cGame::update(double deltaTime)
 		}
 	}
 	
-	 for (int alin = 0; alin < enemyDestroyed; ++ alin)
+	 for (int enemyno = 0; enemyno < enemyDestroyed; ++ enemyno)
 	{
 		 createEnemy();
 	}
@@ -473,15 +483,6 @@ void cGame::update(double deltaTime)
 	}
 	
 	/*
-	for (int laser = 0; laser < theLaserfire.size(); laser++)
-	{
-		if (theLaserfire[laser]->getSpritePos().y(renderHeight + 75))
-		{
-			theLaserfire[laser]->setActive(false);
-		}
-	}
-	*/
-	/*
 	==============================================================
 	| Check for collisions
 	==============================================================
@@ -503,7 +504,6 @@ void cGame::update(double deltaTime)
 				{
 					theTextureMgr->deleteTexture("Score");
 				}
-				//theTextureMgr->deleteTexture("Score");
 				string theScore = to_string(score);
 				scoreAsString = "Score:" + theScore;
 				scoreChanged = true;
@@ -535,6 +535,16 @@ void cGame::update(double deltaTime)
 			//theTileMap.writeMapDataToFile(&theFile);
 			theGameState = PLAYING;
 			theAreaClicked = { 0, 0 };
+		}
+
+		if (health <= 0)
+		{
+			theGameState = END;
+		}
+
+		if (score >= 1000)
+		{
+			theGameState = END;
 		}
 	}
 	break;
