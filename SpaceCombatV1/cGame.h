@@ -92,13 +92,13 @@ private:
 	SDL_Point mapTileClicked;
 	int renderWidth, renderHeight;//integer used to show width and height of render window
 	gameState theGameState;//creates the game state
-	btnTypes theBtnType; //
+	btnTypes theBtnType; //gets button types
 	SDL_Rect pos;
 	FPoint scale;
 	SDL_Rect aRect;
 	SDL_Color aColour;
 	cTextures* tempTextTexture;
-	SDL_Point theAreaClicked;//
+	SDL_Point theAreaClicked;//used to destect areas clicked
 	bool fileAvailable;
 };
 

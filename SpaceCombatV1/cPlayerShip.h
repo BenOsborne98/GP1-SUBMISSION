@@ -2,7 +2,7 @@
 =================
 cPlayerShip.h
 - Header file for class definition - SPECIFICATION
-- Header file for the Rocket class which is a child of cSprite class
+- Header file for the Player Ship class which is a child of cSprite class
 =================
 */
 #ifndef _CPLAYERSHIP_H

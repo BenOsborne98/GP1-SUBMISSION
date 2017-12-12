@@ -13,7 +13,7 @@ Defualt Constructor
 */
 cPlayerShip::cPlayerShip() : cSprite()
 {
-	this->playerShipVelocity = { 0, 0 };
+	this->playerShipVelocity = { 0, 0 };//sets initial player velocity as 0
 }
 /*
 =================================================================
@@ -37,11 +37,11 @@ void cPlayerShip::update(double deltaTime)
 	SDL_Rect currentSpritePos = this->getSpritePos();
 	currentSpritePos.x += this->playerShipVelocity.x * deltaTime;
 	currentSpritePos.y += this->playerShipVelocity.y * deltaTime;
-
+	//sets the player movement velocity
 	this->playerShipVelocity.x *= 0.95;
 	this->playerShipVelocity.y *= 0.95;
 
-	this->setSpritePos({ currentSpritePos.x , currentSpritePos.y });
+	this->setSpritePos({ currentSpritePos.x , currentSpritePos.y });// sets the players sprites position
 	this->setBoundingRect(this->getSpritePos());
 }
 /*
@@ -51,7 +51,7 @@ Sets the velocity for the rocket
 */
 void cPlayerShip::setplayerShipVelocity(SDL_Point playerShipVel)
 {
-	playerShipVelocity = playerShipVel;
+	playerShipVelocity = playerShipVel;//sets player velocity when called
 }
 
 /*

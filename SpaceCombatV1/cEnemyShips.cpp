@@ -23,18 +23,12 @@ Update the sprite position
 
 void cEnemyShips ::update(double deltaTime)
 {
-	/*
-	this->setSpriteRotAngle(this->getSpriteRotAngle() + (2.0f * deltaTime));//sets the enemy ship rotation speed
-	if (this->getSpriteRotAngle() > 360)
-	{
-		this->setSpriteRotAngle(this->getSpriteRotAngle() - 360);
-	}
-	*/
-	SDL_Rect currentSpritePos = this->getSpritePos();
-	currentSpritePos.x += this->getSpriteTranslation().x * deltaTime;
-	currentSpritePos.y += this->getSpriteTranslation().y * deltaTime;
+	
+	SDL_Rect currentSpritePos = this->getSpritePos();//sets sprite position
+	currentSpritePos.x += this->getSpriteTranslation().x * deltaTime;//sets x position
+	currentSpritePos.y += this->getSpriteTranslation().y * deltaTime;//sets y posiiton
 
-	this->setSpritePos({ currentSpritePos.x, currentSpritePos.y });
+	this->setSpritePos({ currentSpritePos.x, currentSpritePos.y });//set sprite position
 	//cout << "EnemyShip position - x: " << this->getSpritePos().x << " y: " << this->getSpritePos().y << " deltaTime: " << deltaTime << endl;
 	this->setBoundingRect(this->getSpritePos());
 }

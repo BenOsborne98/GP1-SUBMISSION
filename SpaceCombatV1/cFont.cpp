@@ -36,8 +36,8 @@ bool cFont::loadFont(LPCSTR fontFileName, int fontSize)
 
 	if (theFont == NULL)
 	{
-		cout << " Failed to load font : " << SDL_GetError() << endl;
-		delete theFont;
+		cout << " Failed to load font : " << SDL_GetError() << endl;//output if error when font doesnt load
+		delete theFont;//deletes font
 		return false;
 	}
 	return true;
@@ -67,7 +67,7 @@ SDL_Texture* cFont::createTextTexture(SDL_Renderer* theRenderer, LPCSTR text, te
 	{
 	case SOLID:
 	{
-		theTxtSurface = TTF_RenderText_Solid(theFont, text, txtColour);
+		theTxtSurface = TTF_RenderText_Solid(theFont, text, txtColour);//renders font as one solid colour
 	}
 	break;
 	case BLENDED:

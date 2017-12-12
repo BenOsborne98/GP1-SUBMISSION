@@ -13,7 +13,7 @@ Defualt Constructor
 */
 cLasers::cLasers() : cSprite()
 {
-	this->laserVelocity = { 0, 0 };
+	this->laserVelocity = { 0, 0 };//sets initial laser velocity as zero
 }
 /*
 =================================================================
@@ -47,16 +47,16 @@ void cLasers::update(double deltaTime)
 }
 /*
 =================================================================
-Sets the velocity for the Bullet
+Sets the velocity for the Laser
 =================================================================
 */
 void cLasers::setlaserVelocity(SDL_Point laserVel)
 {
-	this->laserVelocity = laserVel;
+	this->laserVelocity = laserVel;//used for lasers velocity when moving
 }
 /*
 =================================================================
-Gets the Bullet velocity
+Gets the Laser velocity
 =================================================================
 */
 SDL_Point cLasers::getlaserVelocity()
