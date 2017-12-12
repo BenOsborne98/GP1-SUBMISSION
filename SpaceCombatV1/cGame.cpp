@@ -116,15 +116,15 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	//-------------------------------------------------------------------------------------
 
 	// Load game sounds
-	soundList = { "theme", "shot", "explosion" };//names given to list of sounds
-	soundTypes = { MUSIC, SFX, SFX };//lists the sound types
-	soundsToUse = { "Audio/who10Edit.wav", "Audio/shot007.wav", "Audio/explosion2.wav" };//finds the relevent sound files 
+	soundList = { "theme", "theme2", "laser", "shot", "explosion" };//names given to list of sounds
+	soundTypes = { MUSIC, MUSIC, SFX, SFX, SFX };//lists the sound types
+	soundsToUse = { "Audio/who10Edit.wav", "Audio/theme2.wav", "Audio/laser.wav", "Audio/shot007.wav", "Audio/explosion2.wav" };//finds the relevent sound files 
 	for (int sounds = 0; sounds < soundList.size(); sounds++)//checks the size of the sounds list 
 	{
 		theSoundManager->add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
 	}
 
-	theSoundManager->getSnd("theme")->play(-1);
+	theSoundManager->getSnd("theme2")->play(-1);
 
 	spriteBkgd.setSpritePos({ 0, 0 });//sets the position of the background
 	spriteBkgd.setTexture(theTextureMgr->getTexture("theBackground"));//gets background texture
@@ -237,7 +237,7 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
 		scoreChanged = false;
 	}
-
+	/*
 	//RenderHealth
 	if (healthChanged)
 	{
@@ -245,19 +245,19 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theTextureMgr->addTexture("Health", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[2], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 }));
 		healthChanged = false;
 	}
-	
+	*/
 	//Set Score Texture
 	tempTextTexture = theTextureMgr->getTexture("Score");
 	pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	
+	/*
 	//Set Health Texture
 	tempTextTexture = theTextureMgr->getTexture("Health");
 	pos = { 10, 700, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
-	
+	*/
 	// render the Players ship
 	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
 	
@@ -640,7 +640,7 @@ bool cGame::getInput(bool theLoop)
 				theLaserfire[numLasers]->setActive(true);
 				cout << "Laser added to Vector at position - x: " << thePlayer.getBoundingRect().x << " y: " << thePlayer.getBoundingRect().y << endl;
 			}
-			theSoundManager->getSnd("shot")->play(0);
+			theSoundManager->getSnd("laser")->play(0);
 			break;
 			default:
 				break;
