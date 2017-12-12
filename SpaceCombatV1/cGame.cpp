@@ -70,7 +70,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 
 	// Store the textures
 	textureName = { "asteroid1", "asteroid2", "asteroid3", "asteroid4", "lasers","thePlayerShip","theBackground" };
-	texturesToUse = { "Images\\asteroid1.png", "Images\\asteroid2.png", "Images\\asteroid3.png", "Images\\asteroid4.png", "Images\\bullet.png", "Images\\PlayerShipNew.png", "Images\\Background.png" }; //"Images\\starscape1024x768.png"};
+	texturesToUse = { "Images\\EnemyShip.png", "Images\\EnemyShip.png", "Images\\EnemyShip.png", "Images\\EnemyShip.png", "Images\\laser.png", "Images\\Player Ship.png", "Images\\Background.png" }; //"Images\\starscape1024x768.png"};
 	for (int tCount = 0; tCount < textureName.size(); tCount++)
 	{
 		theTextureMgr->addTexture(textureName[tCount], texturesToUse[tCount]);
@@ -95,7 +95,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	theTextureMgr->addTexture("SCORE = 5000", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[4], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
 	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" }; // gives list of allocated names for buttons
-	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
+	btnTexturesToUse = { "Images/Buttons/Quit Button.png", "Images/Buttons/button_instructions.png", "Images/Buttons/Load Button.png", "Images/Buttons/Menu Button.png", "Images/Buttons/Play Button.png", "Images/Buttons/Save Button.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
 	btnPos = { { 400, 375 },{ 400, 300 },{ 400, 300 },{ 500, 500 },{ 400, 300 },{ 740, 500 },{ 400, 300 } }; // sets button position
 	for (int bCount = 0; bCount < btnNameList.size(); bCount++)//checks buttin name list with the textures that can be used
 	{
