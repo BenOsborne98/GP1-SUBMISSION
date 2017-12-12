@@ -82,7 +82,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	{
 		theFontMgr->addFont(fontList[fonts], fontsToUse[fonts], 36); //font manager adds font to the list with a size of 36
 	}
-	gameTextList = { "Space Combat", "Score: 0" , "Health:" , "GAME OVER", "SCORE = XXXX"}; // game text list checks to see waht will be rendered on screen
+	gameTextList = { "Space Combat", "Score: 0" , "Health:" , "GAME OVER", "SCORE = 5000"}; // game text list checks to see waht will be rendered on screen
 
 	theTextureMgr->addTexture("Title", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[0], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
@@ -92,7 +92,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 
 	theTextureMgr->addTexture("GAME OVER", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[3], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
-	theTextureMgr->addTexture("SCORE = XXXX", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[4], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
+	theTextureMgr->addTexture("SCORE = 5000", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[4], SOLID, { 0, 255, 0, 255 }, { 0, 0, 0, 0 })); // texture manager finds the texture and applies the stated font before it is given a colour
 
 	btnNameList = { "exit_btn", "instructions_btn", "load_btn", "menu_btn", "play_btn", "save_btn", "settings_btn" }; // gives list of allocated names for buttons
 	btnTexturesToUse = { "Images/Buttons/button_exit.png", "Images/Buttons/button_instructions.png", "Images/Buttons/button_load.png", "Images/Buttons/button_menu.png", "Images/Buttons/button_play.png", "Images/Buttons/button_save.png", "Images/Buttons/button_settings.png" }; //finds file with the png's required
@@ -289,7 +289,7 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		scale = { 20, 20 };
 		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 		
-		tempTextTexture = theTextureMgr->getTexture("SCORE = XXXX");
+		tempTextTexture = theTextureMgr->getTexture("SCORE = 5000");
 		pos = { 325, 80, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 		scale = { 20, 20 };
 		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
@@ -542,7 +542,7 @@ void cGame::update(double deltaTime)
 			theGameState = END;
 		}
 
-		if (score >= 1000)
+		if (score >= 5000)
 		{
 			theGameState = END;
 		}
