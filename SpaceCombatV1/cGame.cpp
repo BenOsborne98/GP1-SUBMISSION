@@ -130,7 +130,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	spriteBkgd.setTexture(theTextureMgr->getTexture("theBackground"));//gets background texture
 	spriteBkgd.setSpriteDimensions(theTextureMgr->getTexture("theBackground")->getTWidth(), theTextureMgr->getTexture("theBackground")->getTHeight());//gets the background dimensions
 	cout << "Bckgnd w " << spriteBkgd.getSpriteDimensions().w << " h " << spriteBkgd.getSpriteDimensions().h << endl;
-	thePlayer.setSpritePos({ 400, 500 });//sets position of the player ship
+	thePlayer.setSpritePos({ 400, 650 });//sets position of the player ship
 	thePlayer.setTexture(theTextureMgr->getTexture("thePlayerShip"));//sets the texture for the player ship
 	thePlayer.setSpriteDimensions(theTextureMgr->getTexture("thePlayerShip")->getTWidth(), theTextureMgr->getTexture("thePlayerShip")->getTHeight());//sets the dimensions of player ship
 	thePlayer.setplayerShipVelocity({ 0, 0 });//sets the player ship as stationary
@@ -142,7 +142,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		theEnemies.push_back(new cEnemyShips);
 		theEnemies[enemy]->setSpritePos({ 100 * (rand() % 8 + 1), 0 });//sets random position of enemy ships 
 		theEnemies[enemy]->setSpriteTranslation({ 0,(rand() % 8 + 1) });//sets the speed of the y position of the enemy ships
-		int randEnemyShip = rand() % 4;
+		int randEnemyShip = rand() % 4;//chooses random enemy
 		theEnemies[enemy]->setTexture(theTextureMgr->getTexture(textureName[randEnemyShip]));//sets the texture of the enemy ships
 		theEnemies[enemy]->setSpriteDimensions(theTextureMgr->getTexture(textureName[randEnemyShip])->getTWidth(), theTextureMgr->getTexture(textureName[randEnemyShip])->getTHeight());//sets enemy ship dimensions
 		theEnemies[enemy]->setenemyShipVelocity({ 0, 0 });//inital enemy ship velocity is stationary
@@ -212,17 +212,17 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	
 	case PLAYING:
 	{
-			SDL_RenderClear(theRenderer);
-	spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
+			SDL_RenderClear(theRenderer);//clears previous renderings
+	spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());//renders background
 	// Render each asteroid in the vector array
 	for (int draw = 0; draw < theEnemies.size(); draw++)
 	{
-		theEnemies[draw]->render(theRenderer, &theEnemies[draw]->getSpriteDimensions(), &theEnemies[draw]->getSpritePos(), theEnemies[draw]->getSpriteRotAngle(), &theEnemies[draw]->getSpriteCentre(), theEnemies[draw]->getSpriteScale());
+		theEnemies[draw]->render(theRenderer, &theEnemies[draw]->getSpriteDimensions(), &theEnemies[draw]->getSpritePos(), theEnemies[draw]->getSpriteRotAngle(), &theEnemies[draw]->getSpriteCentre(), theEnemies[draw]->getSpriteScale());//renders enemies on screen
 	}
 	// Render each bullet in the vector array
 	for (int draw = 0; draw < theLaserfire.size(); draw++)
 	{
-		theLaserfire[draw]->render(theRenderer, &theLaserfire[draw]->getSpriteDimensions(), &theLaserfire[draw]->getSpritePos(), theLaserfire[draw]->getSpriteRotAngle(), &theLaserfire[draw]->getSpriteCentre(), theLaserfire[draw]->getSpriteScale());
+		theLaserfire[draw]->render(theRenderer, &theLaserfire[draw]->getSpriteDimensions(), &theLaserfire[draw]->getSpritePos(), theLaserfire[draw]->getSpriteRotAngle(), &theLaserfire[draw]->getSpriteCentre(), theLaserfire[draw]->getSpriteScale());//renders laser fire when active
 	}
 	// Render the Title
 	cTextures* tempTextTexture = theTextureMgr->getTexture("Title");
@@ -231,10 +231,10 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 
 	//RenderScore
-	if (scoreChanged)
+	if (scoreChanged)//checks to see if socre has changed
 	{
-		gameTextList[1] = scoreAsString.c_str();
-		theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));
+		gameTextList[1] = scoreAsString.c_str();//checks game text list and sets score to current string
+		theTextureMgr->addTexture("Score", theFontMgr->getFont("nasa")->createTextTexture(theRenderer, gameTextList[1], SOLID, { 0, 255, 0 ,255 }, { 0, 0, 0, 0 }));//shows score in chosen font
 		scoreChanged = false;
 	}
 	/*
@@ -246,11 +246,13 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 		healthChanged = false;
 	}
 	*/
+	
 	//Set Score Texture
 	tempTextTexture = theTextureMgr->getTexture("Score");
 	pos = { 10, 40, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 	scale = { 1, 1 };
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
+	
 	/*
 	//Set Health Texture
 	tempTextTexture = theTextureMgr->getTexture("Health");
@@ -259,18 +261,18 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 	*/
 	// render the Players ship
-	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());
+	thePlayer.render(theRenderer, &thePlayer.getSpriteDimensions(), &thePlayer.getSpritePos(), thePlayer.getSpriteRotAngle(), &thePlayer.getSpriteCentre(), thePlayer.getSpriteScale());//renders the player on screen
 	
 		
 
-		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 740, 650 });
-		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());
+		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 740, 650 });//sets button position
+		theButtonMgr->getBtn("exit_btn")->render(theRenderer, &theButtonMgr->getBtn("exit_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("exit_btn")->getSpritePos(), theButtonMgr->getBtn("exit_btn")->getSpriteScale());//renders button
 		theButtonMgr->getBtn("load_btn")->setSpritePos({ 740, 500 });
-		theButtonMgr->getBtn("load_btn")->render(theRenderer, &theButtonMgr->getBtn("load_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("load_btn")->getSpritePos(), theButtonMgr->getBtn("load_btn")->getSpriteScale());
+		//theButtonMgr->getBtn("load_btn")->render(theRenderer, &theButtonMgr->getBtn("load_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("load_btn")->getSpritePos(), theButtonMgr->getBtn("load_btn")->getSpriteScale());
 		theButtonMgr->getBtn("save_btn")->setSpritePos({ 740, 575 });
-		theButtonMgr->getBtn("save_btn")->render(theRenderer, &theButtonMgr->getBtn("save_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("save_btn")->getSpritePos(), theButtonMgr->getBtn("save_btn")->getSpriteScale());
+		//theButtonMgr->getBtn("save_btn")->render(theRenderer, &theButtonMgr->getBtn("save_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("save_btn")->getSpritePos(), theButtonMgr->getBtn("save_btn")->getSpriteScale());
 
-		SDL_RenderPresent(theRenderer);
+		SDL_RenderPresent(theRenderer);//renders everything on screen
 
 	
 		
@@ -280,20 +282,23 @@ void cGame::render(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	break;
 	
 	
-	case END:
+	case END://sets game to end screen
 	{
-		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());
+		SDL_RenderClear(theRenderer);
+		spriteBkgd.render(theRenderer, NULL, NULL, spriteBkgd.getSpriteScale());//renders background
 		
-		tempTextTexture = theTextureMgr->getTexture("GAME OVER");
-		pos = { 325, 30, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
-		scale = { 20, 20 };
-		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
+		tempTextTexture = theTextureMgr->getTexture("GAME OVER");//shows game over on screen
+		pos = { 325, 30, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };//positions texture
+		scale = { 20, 20 };//scales texture
+		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);//renders texture on screen
 		
+		//Renders the players score
 		tempTextTexture = theTextureMgr->getTexture("SCORE = 5000");
 		pos = { 325, 80, tempTextTexture->getTextureRect().w, tempTextTexture->getTextureRect().h };
 		scale = { 20, 20 };
 		tempTextTexture->renderTexture(theRenderer, tempTextTexture->getTexture(), &tempTextTexture->getTextureRect(), &pos, scale);
 		
+		//Renders butttons
 		theButtonMgr->getBtn("menu_btn")->setSpritePos({ 500, 500 });
 		theButtonMgr->getBtn("menu_btn")->render(theRenderer, &theButtonMgr->getBtn("menu_btn")->getSpriteDimensions(), &theButtonMgr->getBtn("menu_btn")->getSpritePos(), theButtonMgr->getBtn("menu_btn")->getSpriteScale());
 		theButtonMgr->getBtn("exit_btn")->setSpritePos({ 500, 575 });
@@ -328,129 +333,34 @@ void cGame::update()
 
 void cGame::update(double deltaTime)
 {
-	/*
-	//int enemyDestroyed = 0;
-	// CHeck Button clicked and change state
-	if (theGameState == MENU || theGameState == END)
-	{
-		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);
-	}
-	else
-	{
-		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, END, theAreaClicked);
-	}
-	theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);
-	theGameState = theButtonMgr->getBtn("menu_btn")->update(theGameState, MENU, theAreaClicked);
-	
-	//int theEnemiesDestroyed = 0; //might need removed
-	int enemyDestroyed = 0;
-	// Update the visibility and position of each asteriod
-	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();
-	while (enemyIterator != theEnemies.end())
-	{
-		if ((*enemyIterator)->isActive() == false)
-		{
-			enemyIterator = theEnemies.erase(enemyIterator);
-			++enemyDestroyed;
 
-			//++theEnemiesDestroyed; //might need removed
-		}
-		else
-		{
-			(*enemyIterator)->update(30.0f *deltaTime);
-			++enemyIterator;
-		}
-	}
-	
-	 for (int alin = 0; alin < enemyDestroyed; ++ alin)
-	{
-		 createEnemy();
-	}
-
-	 for (int enemy = 0; enemy < theEnemies.size(); enemy++)
-	 {
-		 if (theEnemies[enemy]->getSpritePos().y >= (renderHeight - 75))
-		 {
-			 theEnemies[enemy]->setActive(false);
-		 }
-	 }
-	
-	// Update the visibility and position of each bullet
-	vector<cLasers*>::iterator laserIterartor = theLaserfire.begin();
-	while (laserIterartor != theLaserfire.end())
-	{
-		if ((*laserIterartor)->isActive() == false)
-		{
-			laserIterartor = theLaserfire.erase(laserIterartor);
-		}
-		else
-		{
-			(*laserIterartor)->update(deltaTime);
-			++laserIterartor;
-		}
-	}
-
-	/*
-	==============================================================
-	| Check for collisions
-	==============================================================
-	*/
-	/*
-	for (vector<cLasers*>::iterator laserIterartor = theLaserfire.begin(); laserIterartor != theLaserfire.end(); ++laserIterartor)
-	{
-		//(*bulletIterartor)->update(deltaTime);
-		for (vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin(); enemyIterator != theEnemies.end(); ++enemyIterator)
-		{
-			if ((*enemyIterator)->collidedWith(&(*enemyIterator)->getBoundingRect(), &(*laserIterartor)->getBoundingRect()))
-			{
-				// if a collision set the bullet and asteroid to false
-				(*enemyIterator)->setActive(false);
-				(*laserIterartor)->setActive(false);
-				theSoundManager->getSnd("explosion")->play(0);
-				score+=100;
-				if (theTextureMgr->getTexture("Score") != NULL)
-				{
-					theTextureMgr->deleteTexture("Score");
-				}
-				//theTextureMgr->deleteTexture("Score");
-				string theScore = to_string(score);
-				scoreAsString = "Score:" + theScore;
-				scoreChanged = true;
-			}
-		}
-	}
-	*/
-	
 	// CHeck Button clicked and change state------------------------------------------------------------------------------------------
-	switch (theGameState)
+	switch (theGameState)//used to check games current state
 	{
-	case MENU:
+	case MENU://game state menu
 	{
-		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);
-		theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);
-		score = 0;
+		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);//checks for button pressed
+		theGameState = theButtonMgr->getBtn("play_btn")->update(theGameState, PLAYING, theAreaClicked);//checks for button pressed
+		score = 0;//sets score to 0
 	}
 	break;
-	case PLAYING:
+	case PLAYING://game state playing
 	{
-			//int theEnemiesDestroyed = 0; //might need removed
-	int enemyDestroyed = 0;
-	//int health = 10;
+	int enemyDestroyed = 0;//sets enemy destroyed to 0
+
 	// Update the visibility and position of each asteriod
-	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();
+	vector<cEnemyShips*>::iterator enemyIterator = theEnemies.begin();//starts enemy iterator for spawning
 	while (enemyIterator != theEnemies.end())
 	{
 		if ((*enemyIterator)->isActive() == false)
 		{
-			enemyIterator = theEnemies.erase(enemyIterator);
-			++enemyDestroyed;
-
-			//++theEnemiesDestroyed; //might need removed
+			enemyIterator = theEnemies.erase(enemyIterator);//enemy will be erased 
+			++enemyDestroyed;//adds 1 to destroyed enemy
 		}
 		else
 		{
 			(*enemyIterator)->update(30.0f *deltaTime);
-			++enemyIterator;
+			++enemyIterator;//spawns an additional enemy
 		}
 	}
 	
