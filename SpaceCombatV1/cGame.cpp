@@ -118,7 +118,7 @@ void cGame::initialise(SDL_Window* theSDLWND, SDL_Renderer* theRenderer)
 	// Load game sounds
 	soundList = { "theme", "theme2", "laser", "shot", "explosion" };//names given to list of sounds
 	soundTypes = { MUSIC, MUSIC, SFX, SFX, SFX };//lists the sound types
-	soundsToUse = { "Audio/who10Edit.wav", "Audio/theme2.wav", "Audio/laser.wav", "Audio/shot007.wav", "Audio/explosion2.wav" };//finds the relevent sound files 
+	soundsToUse = { "Audio/who10Edit.wav", "Audio/theme2.wav", "Audio/laser.wav", "Audio/shot007.wav", "Audio/explosion.wav" };//finds the relevent sound files 
 	for (int sounds = 0; sounds < soundList.size(); sounds++)//checks the size of the sounds list 
 	{
 		theSoundManager->add(soundList[sounds], soundsToUse[sounds], soundTypes[sounds]);
