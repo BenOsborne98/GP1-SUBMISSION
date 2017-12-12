@@ -364,12 +364,12 @@ void cGame::update(double deltaTime)
 		}
 	}
 	
-	 for (int enemyno = 0; enemyno < enemyDestroyed; ++ enemyno)
+	 for (int enemyno = 0; enemyno < enemyDestroyed; ++ enemyno)//checks the number of enemies on screen
 	{
-		 createEnemy();
+		 createEnemy();//creates enemy
 	}
 
-	 for (int enemy = 0; enemy < theEnemies.size(); enemy++)
+	 for (int enemy = 0; enemy < theEnemies.size(); enemy++)//checks the size of the enemies (i.e. number)
 	 {
 		 if (theEnemies[enemy]->getSpritePos().y >= (renderHeight - 75))
 		 {
@@ -377,7 +377,7 @@ void cGame::update(double deltaTime)
 		 }
 	 }
 	
-	// Update the visibility and position of each bullet
+	// Update the visibility and position of each laser
 	vector<cLasers*>::iterator laserIterartor = theLaserfire.begin();
 	while (laserIterartor != theLaserfire.end())
 	{
@@ -405,21 +405,22 @@ void cGame::update(double deltaTime)
 		{
 			if ((*enemyIterator)->collidedWith(&(*enemyIterator)->getBoundingRect(), &(*laserIterartor)->getBoundingRect()))
 			{
-				// if a collision set the bullet and asteroid to false
+				// if a collision set the laser and enemy ship to false
 				(*enemyIterator)->setActive(false);
 				(*laserIterartor)->setActive(false);
 				theSoundManager->getSnd("explosion")->play(0);
 				score += 100;
-				if (theTextureMgr->getTexture("Score") != NULL)
+				if (theTextureMgr->getTexture("Score") != NULL)//updates texture
 				{
-					theTextureMgr->deleteTexture("Score");
+					theTextureMgr->deleteTexture("Score");//deletes original texture
 				}
-				string theScore = to_string(score);
-				scoreAsString = "Score:" + theScore;
-				scoreChanged = true;
+				string theScore = to_string(score);//updates score 
+				scoreAsString = "Score:" + theScore;//updates score string to show on screen
+				scoreChanged = true;//score changed shown
 			}
 		}
 	}
+		//allows exit button to work
 		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, END, theAreaClicked);
 		theGameState = theButtonMgr->getBtn("load_btn")->update(theGameState, LOADGAME, theAreaClicked);
 		if (fileAvailable && theGameState == LOADGAME)
@@ -446,13 +447,13 @@ void cGame::update(double deltaTime)
 			theGameState = PLAYING;
 			theAreaClicked = { 0, 0 };
 		}
-
+		//not used
 		if (health <= 0)
 		{
 			theGameState = END;
 		}
-
-		if (score >= 5000)
+		//checks player score
+		if (score >= 5000)//if score is that of 5000 the game will end
 		{
 			theGameState = END;
 		}
@@ -460,6 +461,7 @@ void cGame::update(double deltaTime)
 	break;
 	case END:
 	{
+		//allows use of buttons
 		theGameState = theButtonMgr->getBtn("exit_btn")->update(theGameState, QUIT, theAreaClicked);
 		theGameState = theButtonMgr->getBtn("menu_btn")->update(theGameState, MENU, theAreaClicked);
 	}
@@ -493,9 +495,9 @@ bool cGame::getInput(bool theLoop)
 		case SDL_MOUSEBUTTONDOWN:
 			switch (event.button.button)
 			{
-			case SDL_BUTTON_LEFT:
+			case SDL_BUTTON_LEFT://use of left mouse button
 			{
-				theAreaClicked = { event.motion.x, event.motion.y };
+				theAreaClicked = { event.motion.x, event.motion.y };//allows buttons to be pressed
 			}
 			break;
 			case SDL_BUTTON_RIGHT:
@@ -519,26 +521,27 @@ bool cGame::getInput(bool theLoop)
 			break;
 		case SDL_MOUSEMOTION:
 			break;
-		case SDL_KEYDOWN:
+		case SDL_KEYDOWN://detects if key has been been held down
 			switch (event.key.keysym.sym)
 			{
-			case SDLK_ESCAPE:
-				theLoop = false;
+			case SDLK_ESCAPE://if escape button pressed
+				theLoop = false;//breaks game loop
 				break;
 
-			case SDLK_d:
+			case SDLK_d://detects if d key is pressed
 			{
-				thePlayer.setplayerShipVelocity({ 250, 0 });
+				thePlayer.setplayerShipVelocity({ 250, 0 });//moves player to the right
 			}
 			break;
 
-			case SDLK_a:
+			case SDLK_a://detects if a key is pressed
 			{
-				thePlayer.setplayerShipVelocity({ -250, 0 });
+				thePlayer.setplayerShipVelocity({ -250, 0 });//moves player to the left
 			}
 			break;
-			case SDLK_SPACE:
+			case SDLK_SPACE://detects if space bar is pressed
 			{
+				//Renders lasers 
 				theLaserfire.push_back(new cLasers);
 				int numLasers = theLaserfire.size() - 1;
 				theLaserfire[numLasers]->setSpritePos({ thePlayer.getBoundingRect().x + thePlayer.getSpriteCentre().x, thePlayer.getBoundingRect().y + thePlayer.getSpriteCentre().y });
@@ -550,7 +553,7 @@ bool cGame::getInput(bool theLoop)
 				theLaserfire[numLasers]->setActive(true);
 				cout << "Laser added to Vector at position - x: " << thePlayer.getBoundingRect().x << " y: " << thePlayer.getBoundingRect().y << endl;
 			}
-			theSoundManager->getSnd("laser")->play(0);
+			theSoundManager->getSnd("laser")->play(0);//plays sound
 			break;
 			default:
 				break;
@@ -561,7 +564,7 @@ bool cGame::getInput(bool theLoop)
 		}
 
 	}
-	return theLoop;
+	return theLoop;//game will keep playing unless loop is broken
 }
 
 double cGame::getElapsedSeconds()
